@@ -1,0 +1,21 @@
+APP_TITLE = "AUI Translator MVP"
+TARGET_LANGUAGE = "hu"
+HOTKEY = "F10"
+
+# Privilege / hotkey reliability
+AUTO_ELEVATE_TO_ADMIN = True
+
+# Translation
+LIBRETRANSLATE_URL = "http://127.0.0.1:5000/translate"
+LIBRETRANSLATE_SOURCE_LANGUAGE = "auto"
+LIBRETRANSLATE_FORMAT = "text"
+LIBRETRANSLATE_TIMEOUT_SECONDS = 30
+
+# OCR
+TESSERACT_LANG = "eng"
+OCR_CONFIDENCE_MIN = 0
+
+# Preprocessing
+USE_GRAYSCALE = True
+USE_AUTOCONTRAST = True
+
