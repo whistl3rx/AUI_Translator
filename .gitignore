@@ -3,5 +3,7 @@ dist/
 debug/
 .venv/
 __pycache__/
+
 *.pyc
 *.spec
+config.json

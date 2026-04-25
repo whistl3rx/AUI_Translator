@@ -68,6 +68,18 @@ class RegionSelector:
         canvas.pack(fill=tk.BOTH, expand=True)
         overlay.update_idletasks()
 
+        hint = tk.Label(
+            overlay,
+            text="Left click + drag: select region\nMiddle/Right click: cancel",
+            fg="white",
+            bg="black",
+            padx=8,
+            pady=4,
+            font=("Segoe UI", 10),
+        )
+        hint.place(x=12, y=12)
+        hint.lift()
+
         # Tk koordinatak (logikai px) es a screenshot (fizikai px) kozti skala.
         capture_scale_x, capture_scale_y = self._get_capture_scale(overlay)
 
@@ -98,14 +110,16 @@ class RegionSelector:
                 self._bbox = (scaled_left, scaled_top, scaled_right, scaled_bottom)
             overlay.destroy()
 
-        def cancel(_: tk.Event) -> None:
+        def cancel(_: tk.Event | None = None) -> None:
             self._bbox = None
             overlay.destroy()
 
         canvas.bind("<ButtonPress-1>", on_press)
         canvas.bind("<B1-Motion>", on_drag)
         canvas.bind("<ButtonRelease-1>", on_release)
-        overlay.bind("<Escape>", cancel)
+        # Cancel selection (middle click / right click).
+        canvas.bind("<Button-2>", cancel)  # middle click
+        canvas.bind("<Button-3>", cancel)  # right click
 
         overlay.focus_force()
         overlay.grab_set()

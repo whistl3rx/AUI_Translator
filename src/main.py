@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import time
 from dataclasses import dataclass
 
 import keyboard
@@ -75,11 +76,31 @@ def main() -> None:
     ensure_language_settings()
 
     if is_windows() and AUTO_ELEVATE_TO_ADMIN:
-        print(f"Admin mod: {'igen' if is_admin() else 'nem'}")
-    print(f"AUI Translator MVP elindult. Hotkey: {HOTKEY}")
-    print("Nyomd meg az F10-et a kijelöléshez, ESC-et kilépéshez.")
+        print(f"Admin mode: {'yes' if is_admin() else 'no'}")
+    print(f"AUI Translator started. Hotkey: {HOTKEY}")
+    print("Press F10 to select a region. Press ESC (in this terminal) or Ctrl+C to quit.")
     keyboard.add_hotkey(HOTKEY, on_hotkey, suppress=False)
-    keyboard.wait("esc")
+    if is_windows():
+        # ESC should only quit when the terminal has focus (non-global).
+        import msvcrt
+
+        try:
+            while True:
+                if msvcrt.kbhit():
+                    ch = msvcrt.getwch()
+                    if ch == "\x1b":  # ESC
+                        break
+                time.sleep(0.05)
+        except KeyboardInterrupt:
+            pass
+        return
+
+    # Fallback for non-Windows: quit only via Ctrl+C.
+    try:
+        while True:
+            time.sleep(0.25)
+    except KeyboardInterrupt:
+        pass
 
 
 if __name__ == "__main__":
