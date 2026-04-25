@@ -4,16 +4,16 @@ setlocal
 REM Windows onedir build script (faster startup than onefile)
 REM Output: dist\AUI_Translator\AUI_Translator.exe
 
-where pyinstaller >nul 2>nul
-if errorlevel 1 (
-  echo [INFO] PyInstaller nincs telepitve. Telepites...
-  python -m pip install pyinstaller
-)
+echo [INFO] Dependencies telepitese/frissitese (requirements.txt)...
+python -m pip install -r requirements.txt
+
+echo [INFO] PyInstaller ellenorzese...
+python -m pip install pyinstaller
 
 if not exist "dist" mkdir dist
 if not exist "build" mkdir build
 
-pyinstaller ^
+python -m PyInstaller ^
   --noconfirm ^
   --clean ^
   --onedir ^
